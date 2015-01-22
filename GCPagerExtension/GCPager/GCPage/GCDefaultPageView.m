@@ -54,7 +54,7 @@
 }
 - (instancetype)withBlockForPageViewCell:(GCPageViewCell* (^)(GCPageView* pageView, NSUInteger index))block {
     __weak typeof(self) weakSelf = self;
-    [self.pageScrollView withBlockWithPageViewWillDisplay:^UIView *(GCPageScrollView *view, NSUInteger index) {
+    [self.pageScrollView withBlockWithPageViewForDisplay:^UIView *(GCPageScrollView *view, NSUInteger index) {
         return (UIView *)block(weakSelf, index);
     }];
     return self;

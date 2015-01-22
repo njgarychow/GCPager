@@ -13,7 +13,7 @@
 @property (nonatomic, assign) BOOL contentPagingEnabled;
 
 - (instancetype)withBlockWithPageViewCount:(NSUInteger (^)(GCPageScrollView* view))block;
-- (instancetype)withBlockWithPageViewWillDisplay:(UIView* (^)(GCPageScrollView* view, NSUInteger index))block;
+- (instancetype)withBlockWithPageViewForDisplay:(UIView* (^)(GCPageScrollView* view, NSUInteger index))block;
 - (instancetype)withBlockForPageViewDidUndisplay:(void (^)(GCPageScrollView* view, NSUInteger index, UIView* undisplayView))block;
 - (instancetype)withBlockForPageViewDidScroll:(void (^)(GCPageScrollView* view, UIView* contentView, CGFloat position))block;
 

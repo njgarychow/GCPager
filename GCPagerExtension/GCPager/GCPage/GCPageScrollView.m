@@ -107,7 +107,7 @@
 @interface GCPageScrollView () <UIScrollViewDelegate>
 
 @property (nonatomic, copy) NSUInteger (^blockForPageViewCount)(GCPageScrollView* view);
-@property (nonatomic, copy) UIView* (^blockForPageViewWillDisplay)(GCPageScrollView* view, NSUInteger index);
+@property (nonatomic, copy) UIView* (^blockForPageViewForDisplay)(GCPageScrollView* view, NSUInteger index);
 @property (nonatomic, copy) void (^blockForPageViewDidUndisplay)(GCPageScrollView* view, NSUInteger index, UIView* undisplayView);
 @property (nonatomic, copy) void (^blockForPageViewDidScroll)(GCPageScrollView* view, UIView* contentView, CGFloat position);
 
@@ -143,8 +143,8 @@
     self.blockForPageViewCount = block;
     return self;
 }
-- (instancetype)withBlockWithPageViewWillDisplay:(UIView *(^)(GCPageScrollView *, NSUInteger))block {
-    self.blockForPageViewWillDisplay = block;
+- (instancetype)withBlockWithPageViewForDisplay:(UIView *(^)(GCPageScrollView *, NSUInteger))block {
+    self.blockForPageViewForDisplay = block;
     return self;
 }
 - (instancetype)withBlockForPageViewDidUndisplay:(void (^)(GCPageScrollView *, NSUInteger, UIView *))block {
@@ -158,7 +158,7 @@
 
 - (void)reloadData {
     NSParameterAssert(self.blockForPageViewCount != NULL);
-    NSParameterAssert(self.blockForPageViewWillDisplay != NULL);
+    NSParameterAssert(self.blockForPageViewForDisplay != NULL);
     
     self.totalPageCount = self.blockForPageViewCount(self);
     if (self.currentPageIndex >= self.totalPageCount) {
@@ -227,7 +227,7 @@
     for (NSNumber* index in visibleIndexes) {
         NSUInteger idx = [index unsignedIntegerValue];
         if (![self.storeHelper pageContentScrollViewAtIndex:idx]) {
-            UIView* view = self.blockForPageViewWillDisplay(self, idx);
+            UIView* view = self.blockForPageViewForDisplay(self, idx);
             GCPageContentScrollView* contentView = [self.storeHelper createPageContentScrollViewAtIndex:idx];
             contentView.contentView = view;
             contentView.frame = [self _rectForContentViewAtIndex:idx];
