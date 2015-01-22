@@ -32,6 +32,18 @@
     return nil;
 }
 
+- (instancetype)withBlockForPageViewCellCount:(NSUInteger (^)(GCPageView* pageView))block {
+    NSAssert(NO, @"override this method");
+    return nil;
+}
+- (instancetype)withBlockForPageViewCell:(GCPageViewCell* (^)(GCPageView* pageView, NSUInteger index))block {
+    NSAssert(NO, @"override this method");
+    return nil;
+}
+- (instancetype)withBlockForPageViewCellDidScroll:(void (^)(GCPageView* pageView, GCPageViewCell* cell, CGFloat position))block {
+    NSAssert(NO, @"override this method");
+    return nil;
+}
 - (instancetype)withLeftBorderAction:(void (^)())leftBorderAction {
     NSAssert(NO, @"override this method");
     return nil;

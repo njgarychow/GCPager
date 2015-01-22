@@ -17,17 +17,16 @@ typedef NS_ENUM(NSInteger, GCPageViewMode) {
 
 @interface GCPageView : UIView
 
-@property (nonatomic, copy) NSUInteger (^blockForPageViewCellCount)(GCPageView* pageView);
-@property (nonatomic, copy) GCPageViewCell* (^blockForPageViewCell)(GCPageView* pageView, NSUInteger index);
-@property (nonatomic, copy) void (^blockForPageViewCellDidScroll)(GCPageView* pageView, GCPageViewCell* cell, CGFloat position);
-
 @property (nonatomic, assign) BOOL bounces;
 
 - (instancetype)initWithMode:(GCPageViewMode)mode;
 
+- (instancetype)withBlockForPageViewCellCount:(NSUInteger (^)(GCPageView* pageView))block;
+- (instancetype)withBlockForPageViewCell:(GCPageViewCell* (^)(GCPageView* pageView, NSUInteger index))block;
+- (instancetype)withBlockForPageViewCellDidScroll:(void (^)(GCPageView* pageView, GCPageViewCell* cell, CGFloat position))block;
+
 - (instancetype)withLeftBorderAction:(void (^)())leftBorderAction;
 - (instancetype)withRightBorderAction:(void (^)())rightBorderAction;
-- (instancetype)withPageViewCellSize:(CGSize)size;
 - (instancetype)withPagingEnabled:(BOOL)pagingEnabled;
 
 - (void)registClass:(Class)cellClass withCellIdentifer:(NSString *)cellIdentifier;
