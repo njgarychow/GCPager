@@ -168,6 +168,7 @@
     }
     self.contentSize = CGSizeMake(self.width * self.totalPageCount, self.bounds.size.height);
     [self _refreshContentPageViews];
+    [self _checkContentIfDidEndDiplay];
 }
 
 - (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation {
