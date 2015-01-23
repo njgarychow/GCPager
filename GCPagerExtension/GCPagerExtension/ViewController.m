@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "GCPager.h"
+#import "ContentCell.h"
 
 @implementation ViewController
 
@@ -16,22 +17,24 @@
     
     GCPageView* pageView = ({
         GCPageView* view = [[GCPageView alloc] initWithMode:GCPageViewModeDefault];
+        [view withPagingEnabled:YES];
         [view withBlockForPageViewCellCount:^NSUInteger(GCPageView *pageView) {
-            return (NSUInteger)2000000;
+            return (NSUInteger)4;
         }];
         [view withBlockForPageViewCell:^GCPageViewCell *(GCPageView *pageView, NSUInteger index) {
-            GCPageViewCell* cell = [[GCPageViewCell alloc] initWithFrame:self.view.bounds];
-            UILabel* label = [[UILabel alloc] initWithFrame:self.view.bounds];
-            label.text = [@(index) stringValue];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.font = [UIFont systemFontOfSize:100];
-            [cell addSubview:label];
+            ContentCell* cell = [pageView dequeueReusableCellWithIdentifer:@"test"];
+            cell.label.text = [@(index) stringValue];
             return cell;
         }];
         [view withBlockForPageViewCellDidScroll:^(GCPageView *pageView, GCPageViewCell *cell, CGFloat position) {
-            NSLog(@"%@ %f", cell, position);
+            cell.alpha = 1 - fabsf(position);
         }];
+        [view withLeftBorderAction:^{
+            NSLog(@"left action");
+        }];
+        [view startAutoScrollWithInterval:2.0f];
         view.frame = self.view.bounds;
+        [view registClass:[ContentCell class] withCellIdentifer:@"test"];
         [view reloadData];
         view;
     });

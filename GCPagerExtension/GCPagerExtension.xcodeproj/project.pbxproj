@@ -21,6 +21,8 @@
 		61B1A4551A657D390017BE2C /* GCPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B1A4541A657D390017BE2C /* GCPageView.m */; };
 		61B1A4591A657D590017BE2C /* UIView+GCOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B1A4581A657D590017BE2C /* UIView+GCOperation.m */; };
 		B72E05E51A6E3F1700F0BEB8 /* GCPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B72E05E41A6E3F1700F0BEB8 /* GCPageScrollView.m */; };
+		B72E07821A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B72E07811A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m */; };
+		B72E07851A7215FF00F0BEB8 /* ContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72E07841A7215FF00F0BEB8 /* ContentCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,10 @@
 		61B1A4581A657D590017BE2C /* UIView+GCOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+GCOperation.m"; sourceTree = "<group>"; };
 		B72E05E31A6E3F1700F0BEB8 /* GCPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCPageScrollView.h; sourceTree = "<group>"; };
 		B72E05E41A6E3F1700F0BEB8 /* GCPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPageScrollView.m; sourceTree = "<group>"; };
+		B72E07801A71F33000F0BEB8 /* GCPageViewCellStoreHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCPageViewCellStoreHelper.h; sourceTree = "<group>"; };
+		B72E07811A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPageViewCellStoreHelper.m; sourceTree = "<group>"; };
+		B72E07831A7215FF00F0BEB8 /* ContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentCell.h; sourceTree = "<group>"; };
+		B72E07841A7215FF00F0BEB8 /* ContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +114,8 @@
 				61B1A4241A655D670017BE2C /* AppDelegate.m */,
 				61B1A4261A655D670017BE2C /* ViewController.h */,
 				61B1A4271A655D670017BE2C /* ViewController.m */,
+				B72E07831A7215FF00F0BEB8 /* ContentCell.h */,
+				B72E07841A7215FF00F0BEB8 /* ContentCell.m */,
 				61B1A4291A655D670017BE2C /* Main.storyboard */,
 				61B1A42C1A655D670017BE2C /* Images.xcassets */,
 				61B1A42E1A655D670017BE2C /* LaunchScreen.xib */,
@@ -164,6 +172,8 @@
 				61B1A4501A6561610017BE2C /* GCScrollView.m */,
 				B72E05E31A6E3F1700F0BEB8 /* GCPageScrollView.h */,
 				B72E05E41A6E3F1700F0BEB8 /* GCPageScrollView.m */,
+				B72E07801A71F33000F0BEB8 /* GCPageViewCellStoreHelper.h */,
+				B72E07811A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m */,
 				6127C5E71A6A5B6C0030E114 /* GCDefaultPageView.h */,
 				6127C5E81A6A5B6C0030E114 /* GCDefaultPageView.m */,
 				6127C5EA1A6A5E970030E114 /* GCInfinitePageView.h */,
@@ -280,8 +290,10 @@
 				61B1A4281A655D670017BE2C /* ViewController.m in Sources */,
 				61B1A4251A655D670017BE2C /* AppDelegate.m in Sources */,
 				6127C5E91A6A5B6C0030E114 /* GCDefaultPageView.m in Sources */,
+				B72E07821A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m in Sources */,
 				61B1A4521A6561610017BE2C /* GCScrollView.m in Sources */,
 				61B1A4221A655D670017BE2C /* main.m in Sources */,
+				B72E07851A7215FF00F0BEB8 /* ContentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

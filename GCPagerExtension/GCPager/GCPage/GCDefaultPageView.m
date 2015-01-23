@@ -8,13 +8,20 @@
 
 #import "GCDefaultPageView.h"
 #import "GCPageScrollView.h"
+#import "GCPageViewCellStoreHelper.h"
+#import "GCPageViewCell.h"
+#import "UIView+GCOperation.h"
 
 @interface GCDefaultPageView () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) GCPageScrollView* pageScrollView;
+@property (nonatomic, strong) GCPageViewCellStoreHelper* cellStoreHelper;
 
 @property (nonatomic, copy) void (^leftBorderAction)();
 @property (nonatomic, copy) void (^rightBorderAction)();
+
+@property (nonatomic, strong) NSTimer* autoScrollTimer;
+@property (nonatomic, assign) NSTimeInterval autoScrollInterval;
 
 @end
 
@@ -34,34 +41,52 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        
+        __weak typeof(self) weakSelf = self;
+        self.cellStoreHelper = [[GCPageViewCellStoreHelper alloc] init];
+        
         self.pageScrollView = ({
             GCPageScrollView* view = [[GCPageScrollView alloc] initWithFrame:self.bounds];
-            view.bounces = self.bounces;
             view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            [view withBlockForPageViewDidUndisplay:^(GCPageScrollView *view, NSUInteger index, UIView *undisplayView) {
+                [weakSelf.cellStoreHelper freeReusablePageViewCell:(id)undisplayView];
+            }];
+            [view withBlockForPageViewDidDisplay:^(GCPageScrollView *view, NSUInteger index, UIView *displayView) {
+                [weakSelf _startAutoScrollWithInterval];
+            }];
             view;
         });
         [self addSubview:self.pageScrollView];
+        
+        UIPanGestureRecognizer* pan = ({
+            UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc] init];
+            [pan addTarget:self action:@selector(_panGestureHandler:)];
+            [pan requireGestureRecognizerToFail:self.pageScrollView.panGestureRecognizer];
+            pan;
+        });
+        [self addGestureRecognizer:pan];
     }
     return self;
 }
 
 - (instancetype)withBlockForPageViewCellCount:(NSUInteger (^)(GCPageView* pageView))block {
     __weak typeof(self) weakSelf = self;
-    [self.pageScrollView withBlockWithPageViewCount:^NSUInteger(GCPageScrollView *view) {
+    [self.pageScrollView withBlockForPageViewCount:^NSUInteger(GCPageScrollView *view) {
         return block(weakSelf);
     }];
     return self;
 }
 - (instancetype)withBlockForPageViewCell:(GCPageViewCell* (^)(GCPageView* pageView, NSUInteger index))block {
     __weak typeof(self) weakSelf = self;
-    [self.pageScrollView withBlockWithPageViewForDisplay:^UIView *(GCPageScrollView *view, NSUInteger index) {
+    [self.pageScrollView withBlockForPageViewForDisplay:^UIView *(GCPageScrollView *view, NSUInteger index) {
         return (UIView *)block(weakSelf, index);
     }];
     return self;
 }
-- (instancetype)withBlockForPageViewCellDidScroll:(void (^)(GCPageView* pageView, GCPageViewCell* cell, CGFloat position))block {\
+- (instancetype)withBlockForPageViewCellDidScroll:(void (^)(GCPageView* pageView, GCPageViewCell* cell, CGFloat position))block {
     __weak typeof(self) weakSelf = self;
     [self.pageScrollView withBlockForPageViewDidScroll:^(GCPageScrollView *view, UIView *contentView, CGFloat position) {
+        [weakSelf _stopAutoScroll];
         if (block) {
             block(weakSelf, (GCPageViewCell *)contentView, position);
         }
@@ -85,22 +110,61 @@
 }
 
 - (void)registClass:(Class)cellClass withCellIdentifer:(NSString *)cellIdentifier {
-    //TODO:
+    [self.cellStoreHelper registClass:cellClass withCellIdentifer:cellIdentifier];
 }
 - (id)dequeueReusableCellWithIdentifer:(NSString *)cellIdentifier {
-    //TODO:
-    return nil;
+    return [self.cellStoreHelper dequeueReusablePageViewCellForIdentifer:cellIdentifier size:self.size];
 }
 
 - (void)reloadData {
     [self.pageScrollView reloadData];
 }
 
+- (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation {
+    [self.pageScrollView showPageAtIndex:index animation:animation];
+}
+
 - (void)startAutoScrollWithInterval:(NSTimeInterval)interval {
-    //TODO:
+    self.autoScrollInterval = interval;
+    [self _startAutoScrollWithInterval];
 }
 - (void)stopAutoScroll {
-    //TODO:
+    self.autoScrollInterval = 0;
+    [self _stopAutoScroll];
+}
+
+#pragma mark - private methods
+
+- (void)_panGestureHandler:(UIPanGestureRecognizer *)pan {
+    if (pan.state == UIGestureRecognizerStateRecognized) {
+        CGPoint offsetPoint = [pan translationInView:pan.view];
+        if (offsetPoint.x > 0 && self.leftBorderAction) {
+            self.leftBorderAction();
+        }
+        if (offsetPoint.x < 0 && self.rightBorderAction) {
+            self.rightBorderAction();
+        }
+    }
+}
+
+- (void)_startAutoScrollWithInterval {
+    if (self.autoScrollInterval == 0) {
+        return;
+    }
+    
+    self.autoScrollTimer = [NSTimer scheduledTimerWithTimeInterval:self.autoScrollInterval
+                                                            target:self
+                                                          selector:@selector(_scrollToNextPageAutomatic:)
+                                                          userInfo:nil
+                                                           repeats:NO];
+}
+- (void)_stopAutoScroll {
+    [self.autoScrollTimer invalidate];
+    self.autoScrollTimer = nil;
+}
+- (void)_scrollToNextPageAutomatic:(NSTimer *)timer {
+    NSUInteger nextPageIndex = (self.pageScrollView.currentPageIndex + 1) % self.pageScrollView.totalPageCount;
+    [self.pageScrollView showPageAtIndex:nextPageIndex animation:YES];
 }
 
 @end

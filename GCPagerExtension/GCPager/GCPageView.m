@@ -72,6 +72,9 @@
 - (void)reloadData {
     NSAssert(NO, @"override this method");
 }
+- (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation {
+    NSAssert(NO, @"override this method");
+}
 - (void)startAutoScrollWithInterval:(NSTimeInterval)interval {
     NSAssert(NO, @"override this method");
 }

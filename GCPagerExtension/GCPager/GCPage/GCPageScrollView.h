@@ -12,11 +12,16 @@
 
 @property (nonatomic, assign) BOOL contentPagingEnabled;
 
-- (instancetype)withBlockWithPageViewCount:(NSUInteger (^)(GCPageScrollView* view))block;
-- (instancetype)withBlockWithPageViewForDisplay:(UIView* (^)(GCPageScrollView* view, NSUInteger index))block;
+- (instancetype)withBlockForPageViewCount:(NSUInteger (^)(GCPageScrollView* view))block;
+- (instancetype)withBlockForPageViewForDisplay:(UIView* (^)(GCPageScrollView* view, NSUInteger index))block;
+- (instancetype)withBlockForPageViewDidDisplay:(void (^)(GCPageScrollView* view, NSUInteger index, UIView* displayView))block;
 - (instancetype)withBlockForPageViewDidUndisplay:(void (^)(GCPageScrollView* view, NSUInteger index, UIView* undisplayView))block;
 - (instancetype)withBlockForPageViewDidScroll:(void (^)(GCPageScrollView* view, UIView* contentView, CGFloat position))block;
 
 - (void)reloadData;
+
+- (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation;
+- (NSUInteger)currentPageIndex;
+- (NSUInteger)totalPageCount;
 
 @end

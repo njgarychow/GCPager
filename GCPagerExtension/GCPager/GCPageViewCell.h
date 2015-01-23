@@ -10,6 +10,11 @@
 
 @interface GCPageViewCell : UIView
 
+@property (nonatomic, readonly) NSString* reuseIdentifier;
+
+- (instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier;
+
 - (void)prepareForReuse;
+- (void)prepareForFree;
 
 @end

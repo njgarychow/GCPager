@@ -34,6 +34,8 @@ typedef NS_ENUM(NSInteger, GCPageViewMode) {
 
 - (void)reloadData;
 
+- (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation;
+
 - (void)startAutoScrollWithInterval:(NSTimeInterval)interval;
 - (void)stopAutoScroll;
 

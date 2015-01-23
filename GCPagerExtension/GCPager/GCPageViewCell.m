@@ -10,7 +10,19 @@
 
 @implementation GCPageViewCell
 
-- (void)prepareForReuse {
+- (instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithFrame:frame]) {
+        _reuseIdentifier = [reuseIdentifier copy];
+    }
+    return self;
 }
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    NSAssert(NO, @"use |initWithFrame:cellIdentifier:| instead");
+    return nil;
+}
+
+- (void)prepareForReuse {}
+- (void)prepareForFree {}
 
 @end
