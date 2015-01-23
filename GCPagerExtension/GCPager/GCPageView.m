@@ -86,4 +86,13 @@
     NSAssert(NO, @"override this method");
 }
 
+- (NSUInteger)currentPageIndex {
+    NSAssert(NO, @"override this method");
+    return 0;
+}
+- (NSUInteger)totalPageCount {
+    NSAssert(NO, @"override this method");
+    return 0;
+}
+
 @end

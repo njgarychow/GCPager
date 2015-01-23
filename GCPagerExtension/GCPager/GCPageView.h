@@ -40,4 +40,7 @@ typedef NS_ENUM(NSInteger, GCPageViewMode) {
 - (void)startAutoScrollWithInterval:(NSTimeInterval)interval;
 - (void)stopAutoScroll;
 
+- (NSUInteger)currentPageIndex;
+- (NSUInteger)totalPageCount;
+
 @end

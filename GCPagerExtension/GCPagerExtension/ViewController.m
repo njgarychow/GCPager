@@ -10,12 +10,18 @@
 #import "GCPager.h"
 #import "ContentCell.h"
 
+@interface ViewController ()
+
+@property (nonatomic, strong) GCPageView* pageView;
+
+@end
+
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    GCPageView* pageView = ({
+    self.pageView = ({
         GCPageView* view = [[GCPageView alloc] initWithMode:GCPageViewModeDefault];
         [view withPagingEnabled:YES];
         [view withBlockForPageViewCellCount:^NSUInteger(GCPageView *pageView) {
@@ -41,12 +47,13 @@
         [view reloadData];
         view;
     });
-    [self.view addSubview:pageView];
+    [self.view addSubview:self.pageView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    [self.pageView reloadData];
 }
 
 @end

@@ -38,6 +38,12 @@
 }
 
 
+- (NSUInteger)currentPageIndex {
+    return self.pageScrollView.currentPageIndex;
+}
+- (NSUInteger)totalPageCount {
+    return self.pageScrollView.totalPageCount;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -96,6 +102,7 @@
 - (instancetype)withBlockForPageViewCellDidEndDisplay:(void (^)(GCPageView* pageView, NSUInteger index, GCPageViewCell* cell))block {
     __weak typeof(self) weakSelf = self;
     [self.pageScrollView withBlockForPageViewDidEndDisplay:^(GCPageScrollView *view, NSUInteger index, UIView *displayView) {
+        [weakSelf _startAutoScrollWithInterval];
         if (block) {
             block(weakSelf, index, (GCPageViewCell *)displayView);
         }
@@ -127,6 +134,7 @@
 
 - (void)reloadData {
     [self.pageScrollView reloadData];
+    [self showPageAtIndex:self.currentPageIndex animation:NO];
 }
 
 - (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation {
@@ -172,7 +180,7 @@
     self.autoScrollTimer = nil;
 }
 - (void)_scrollToNextPageAutomatic:(NSTimer *)timer {
-    NSUInteger nextPageIndex = (self.pageScrollView.currentPageIndex + 1) % self.pageScrollView.totalPageCount;
+    NSUInteger nextPageIndex = (self.currentPageIndex + 1) % self.totalPageCount;
     [self.pageScrollView showPageAtIndex:nextPageIndex animation:YES];
 }
 

@@ -187,6 +187,7 @@
             self.blockForPageViewDidScroll(self, contentContainerView.contentView, (rect.origin.x - scrollView.contentOffset.x) / self.width);
         }
     }
+    [self _checkContentIfDidEndDiplay];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -233,17 +234,26 @@
     }
     for (NSNumber* index in visibleIndexes) {
         NSUInteger idx = [index unsignedIntegerValue];
-        CGRect rect = [self _rectForContentViewAtIndex:idx];
-        GCPageContentScrollView* contentContainerView = [self.storeHelper pageContentScrollViewAtIndex:idx];
-        if (!contentContainerView) {
+        if (![self.storeHelper pageContentScrollViewAtIndex:idx]) {
+            CGRect rect = [self _rectForContentViewAtIndex:idx];
             UIView* view = self.blockForPageViewForDisplay(self, idx);
             GCPageContentScrollView* contentView = [self.storeHelper createPageContentScrollViewAtIndex:idx];
             contentView.frame = rect;
             contentView.contentView = view;
             [self addSubview:contentView];
         }
-        if (self.blockForPageViewDidEndDisplay && (fabsf(rect.origin.x - self.contentOffset.x) == 0)) {
-            self.blockForPageViewDidEndDisplay(self, self.currentPageIndex, contentContainerView.contentView);
+    }
+}
+
+- (void)_checkContentIfDidEndDiplay {
+    if (self.blockForPageViewDidEndDisplay) {
+        for (NSNumber* index in [self _visibleContentIndexes]) {
+            NSUInteger idx = [index unsignedIntegerValue];
+            CGRect rect = [self _rectForContentViewAtIndex:idx];
+            if ((rect.origin.x - self.contentOffset.x) == 0) {
+                GCPageContentScrollView* contentContainerView = [self.storeHelper pageContentScrollViewAtIndex:idx];
+                self.blockForPageViewDidEndDisplay(self, self.currentPageIndex, contentContainerView.contentView);
+            }
         }
     }
 }
