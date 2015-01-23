@@ -105,7 +105,7 @@
 
 @property (nonatomic, copy) NSUInteger (^blockForPageViewCount)(GCPageScrollView* view);
 @property (nonatomic, copy) UIView* (^blockForPageViewForDisplay)(GCPageScrollView* view, NSUInteger index);
-@property (nonatomic, copy) void (^blockForPageViewDidDisplay)(GCPageScrollView* view, NSUInteger index, UIView* displayView);
+@property (nonatomic, copy) void (^blockForPageViewDidEndDisplay)(GCPageScrollView* view, NSUInteger index, UIView* displayView);
 @property (nonatomic, copy) void (^blockForPageViewDidUndisplay)(GCPageScrollView* view, NSUInteger index, UIView* undisplayView);
 @property (nonatomic, copy) void (^blockForPageViewDidScroll)(GCPageScrollView* view, UIView* contentView, CGFloat position);
 
@@ -149,8 +149,8 @@
     self.blockForPageViewDidUndisplay = block;
     return self;
 }
-- (instancetype)withBlockForPageViewDidDisplay:(void (^)(GCPageScrollView* view, NSUInteger index, UIView* displayView))block {
-    self.blockForPageViewDidDisplay = block;
+- (instancetype)withBlockForPageViewDidEndDisplay:(void (^)(GCPageScrollView* view, NSUInteger index, UIView* displayView))block {
+    self.blockForPageViewDidEndDisplay = block;
     return self;
 }
 - (instancetype)withBlockForPageViewDidScroll:(void (^)(GCPageScrollView* view, UIView* contentView, CGFloat position))block {
@@ -185,9 +185,6 @@
             CGRect rect = [self _rectForContentViewAtIndex:[index unsignedIntegerValue]];
             GCPageContentScrollView* contentContainerView = [self.storeHelper pageContentScrollViewAtIndex:[index unsignedIntegerValue]];
             self.blockForPageViewDidScroll(self, contentContainerView.contentView, (rect.origin.x - scrollView.contentOffset.x) / self.width);
-            if (self.blockForPageViewDidDisplay && (fabsf(rect.origin.x - scrollView.contentOffset.x) == 0)) {
-                self.blockForPageViewDidDisplay(self, self.currentPageIndex, contentContainerView.contentView);
-            }
         }
     }
 }
@@ -236,12 +233,17 @@
     }
     for (NSNumber* index in visibleIndexes) {
         NSUInteger idx = [index unsignedIntegerValue];
-        if (![self.storeHelper pageContentScrollViewAtIndex:idx]) {
+        CGRect rect = [self _rectForContentViewAtIndex:idx];
+        GCPageContentScrollView* contentContainerView = [self.storeHelper pageContentScrollViewAtIndex:idx];
+        if (!contentContainerView) {
             UIView* view = self.blockForPageViewForDisplay(self, idx);
             GCPageContentScrollView* contentView = [self.storeHelper createPageContentScrollViewAtIndex:idx];
-            contentView.frame = [self _rectForContentViewAtIndex:idx];
+            contentView.frame = rect;
             contentView.contentView = view;
             [self addSubview:contentView];
+        }
+        if (self.blockForPageViewDidEndDisplay && (fabsf(rect.origin.x - self.contentOffset.x) == 0)) {
+            self.blockForPageViewDidEndDisplay(self, self.currentPageIndex, contentContainerView.contentView);
         }
     }
 }
@@ -258,7 +260,7 @@
         return @[];
     }
     CGRect visibleRect = self.bounds;
-    NSMutableArray* indexes = [NSMutableArray array];
+    NSMutableOrderedSet* indexes = [[NSMutableOrderedSet alloc] init];
     {
         NSUInteger pageIndex = (self.bounds.origin.x / self.width);
         while (YES) {
@@ -266,7 +268,10 @@
             if (!CGRectIntersectsRect(rect, visibleRect)) {
                 break;
             }
-            [indexes addObject:@(pageIndex--)];
+            [indexes addObject:@(pageIndex)];
+            if (pageIndex-- == 0) {
+                break;
+            }
         }
     }
     {
@@ -276,10 +281,13 @@
             if (!CGRectIntersectsRect(rect, visibleRect)) {
                 break;
             }
-            [indexes addObject:@(pageIndex++)];
+            [indexes addObject:@(pageIndex)];
+            if (++pageIndex >= self.totalPageCount) {
+                break;
+            }
         }
     }
-    return [indexes copy];
+    return [indexes array];
 }
 
 @end

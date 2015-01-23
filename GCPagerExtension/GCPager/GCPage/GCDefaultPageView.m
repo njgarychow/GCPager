@@ -51,7 +51,7 @@
             [view withBlockForPageViewDidUndisplay:^(GCPageScrollView *view, NSUInteger index, UIView *undisplayView) {
                 [weakSelf.cellStoreHelper freeReusablePageViewCell:(id)undisplayView];
             }];
-            [view withBlockForPageViewDidDisplay:^(GCPageScrollView *view, NSUInteger index, UIView *displayView) {
+            [view withBlockForPageViewDidEndDisplay:^(GCPageScrollView *view, NSUInteger index, UIView *displayView) {
                 [weakSelf _startAutoScrollWithInterval];
             }];
             view;
@@ -89,6 +89,15 @@
         [weakSelf _stopAutoScroll];
         if (block) {
             block(weakSelf, (GCPageViewCell *)contentView, position);
+        }
+    }];
+    return self;
+}
+- (instancetype)withBlockForPageViewCellDidEndDisplay:(void (^)(GCPageView* pageView, NSUInteger index, GCPageViewCell* cell))block {
+    __weak typeof(self) weakSelf = self;
+    [self.pageScrollView withBlockForPageViewDidEndDisplay:^(GCPageScrollView *view, NSUInteger index, UIView *displayView) {
+        if (block) {
+            block(weakSelf, index, (GCPageViewCell *)displayView);
         }
     }];
     return self;

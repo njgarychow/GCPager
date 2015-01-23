@@ -29,6 +29,9 @@
         [view withBlockForPageViewCellDidScroll:^(GCPageView *pageView, GCPageViewCell *cell, CGFloat position) {
             cell.alpha = 1 - fabsf(position);
         }];
+        [view withBlockForPageViewCellDidEndDisplay:^(GCPageView *pageView, NSUInteger index, GCPageViewCell *cell) {
+            NSLog(@"%@", @(index));
+        }];
         [view withLeftBorderAction:^{
             NSLog(@"left action");
         }];

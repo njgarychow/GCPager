@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, GCPageViewMode) {
 - (instancetype)withBlockForPageViewCellCount:(NSUInteger (^)(GCPageView* pageView))block;
 - (instancetype)withBlockForPageViewCell:(GCPageViewCell* (^)(GCPageView* pageView, NSUInteger index))block;
 - (instancetype)withBlockForPageViewCellDidScroll:(void (^)(GCPageView* pageView, GCPageViewCell* cell, CGFloat position))block;
+- (instancetype)withBlockForPageViewCellDidEndDisplay:(void (^)(GCPageView* pageView, NSUInteger index, GCPageViewCell* cell))block;
 
 - (instancetype)withLeftBorderAction:(void (^)())leftBorderAction;
 - (instancetype)withRightBorderAction:(void (^)())rightBorderAction;

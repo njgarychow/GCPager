@@ -14,7 +14,7 @@
 
 - (instancetype)withBlockForPageViewCount:(NSUInteger (^)(GCPageScrollView* view))block;
 - (instancetype)withBlockForPageViewForDisplay:(UIView* (^)(GCPageScrollView* view, NSUInteger index))block;
-- (instancetype)withBlockForPageViewDidDisplay:(void (^)(GCPageScrollView* view, NSUInteger index, UIView* displayView))block;
+- (instancetype)withBlockForPageViewDidEndDisplay:(void (^)(GCPageScrollView* view, NSUInteger index, UIView* displayView))block;
 - (instancetype)withBlockForPageViewDidUndisplay:(void (^)(GCPageScrollView* view, NSUInteger index, UIView* undisplayView))block;
 - (instancetype)withBlockForPageViewDidScroll:(void (^)(GCPageScrollView* view, UIView* contentView, CGFloat position))block;
 

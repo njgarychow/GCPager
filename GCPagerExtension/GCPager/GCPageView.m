@@ -44,6 +44,10 @@
     NSAssert(NO, @"override this method");
     return nil;
 }
+- (instancetype)withBlockForPageViewCellDidEndDisplay:(void (^)(GCPageView* pageView, NSUInteger index, GCPageViewCell* cell))block {
+    NSAssert(NO, @"override this method");
+    return nil;
+}
 - (instancetype)withLeftBorderAction:(void (^)())leftBorderAction {
     NSAssert(NO, @"override this method");
     return nil;
