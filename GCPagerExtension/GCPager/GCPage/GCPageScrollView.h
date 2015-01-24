@@ -21,6 +21,8 @@
 - (void)reloadData;
 
 - (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation;
+- (void)showPageAtIndexWithoutCallbacks:(NSUInteger)index;
+
 - (NSUInteger)currentPageIndex;
 - (NSUInteger)totalPageCount;
 

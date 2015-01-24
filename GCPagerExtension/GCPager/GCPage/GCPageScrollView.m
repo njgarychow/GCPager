@@ -116,6 +116,8 @@
 @property (nonatomic, assign) NSUInteger currentPageIndex;
 @property (nonatomic, assign) NSUInteger totalPageCount;
 
+@property (nonatomic, assign) BOOL shouldCallback;
+
 @end
 
 
@@ -131,8 +133,9 @@
         self.delegate = self;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
-        
         self.decelerationRate = 0.994f;
+        
+        self.shouldCallback = YES;
     }
     return self;
 }
@@ -175,13 +178,19 @@
     [self setContentOffset:[self _originForContentViewAtIndex:index] animated:animation];
 }
 
+- (void)showPageAtIndexWithoutCallbacks:(NSUInteger)index {
+    self.shouldCallback = NO;
+    [self showPageAtIndex:index animation:NO];
+    self.shouldCallback = YES;
+}
+
 
 #pragma mark - UIScrollView delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self _refreshContentPageViews];
     self.currentPageIndex = floor(self.contentOffset.x / self.width + 0.5f);
-    if (self.blockForPageViewDidScroll) {
+    if (self.blockForPageViewDidScroll && self.shouldCallback) {
         for (NSNumber* index in [self.storeHelper storedPageContentScrollViewsIndexesInorder]) {
             CGRect rect = [self _rectForContentViewAtIndex:[index unsignedIntegerValue]];
             GCPageContentScrollView* contentContainerView = [self.storeHelper pageContentScrollViewAtIndex:[index unsignedIntegerValue]];
@@ -228,7 +237,7 @@
             UIView* view = contentContainerView.contentView;
             [contentContainerView removeFromSuperview];
             [self.storeHelper deletePageContentScrollViewAtIndex:idx];
-            if (self.blockForPageViewDidUndisplay) {
+            if (self.blockForPageViewDidUndisplay && self.shouldCallback) {
                 self.blockForPageViewDidUndisplay(self, idx, view);
             }
         }
@@ -247,7 +256,7 @@
 }
 
 - (void)_checkContentIfDidEndDiplay {
-    if (self.blockForPageViewDidEndDisplay) {
+    if (self.blockForPageViewDidEndDisplay && self.shouldCallback) {
         for (NSNumber* index in [self _visibleContentIndexes]) {
             NSUInteger idx = [index unsignedIntegerValue];
             CGRect rect = [self _rectForContentViewAtIndex:idx];

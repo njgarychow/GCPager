@@ -122,7 +122,7 @@ static NSUInteger realHalfPageCount = 1000000;
 
 - (void)reloadData {
     [self.pageScrollView reloadData];
-    [self.pageScrollView showPageAtIndex:[self _indexToPageScrollViewIndex:self.currentPageIndex] animation:NO];
+    [self.pageScrollView showPageAtIndexWithoutCallbacks:[self _indexToPageScrollViewIndex:self.currentPageIndex]];
 }
 
 - (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation {

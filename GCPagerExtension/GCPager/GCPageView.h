@@ -19,6 +19,9 @@ typedef NS_ENUM(NSInteger, GCPageViewMode) {
 
 @property (nonatomic, assign) BOOL bounces;
 
+- (NSUInteger)currentPageIndex;
+- (NSUInteger)totalPageCount;
+
 - (instancetype)initWithMode:(GCPageViewMode)mode;
 
 - (instancetype)withBlockForPageViewCellCount:(NSUInteger (^)(GCPageView* pageView))block;
@@ -39,8 +42,5 @@ typedef NS_ENUM(NSInteger, GCPageViewMode) {
 
 - (void)startAutoScrollWithInterval:(NSTimeInterval)interval;
 - (void)stopAutoScroll;
-
-- (NSUInteger)currentPageIndex;
-- (NSUInteger)totalPageCount;
 
 @end
