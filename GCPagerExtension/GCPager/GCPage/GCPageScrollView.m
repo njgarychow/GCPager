@@ -86,6 +86,7 @@
 }
 - (void)deletePageContentScrollViewAtIndex:(NSUInteger)index {
     GCPageContentScrollView* view = _inuseViewDictionary[@(index)];
+    view.zoomScale = 1.0f;
     [_inuseViewDictionary removeObjectForKey:@(index)];
     [view removeAllSubviews];
     view.frame = CGRectZero;
@@ -124,7 +125,7 @@
 @implementation GCPageScrollView
 - (void)setContentPagingEnabled:(BOOL)contentPagingEnabled {
     _contentPagingEnabled = contentPagingEnabled;
-    self.decelerationRate = _contentPagingEnabled ? .994f : .992f;
+    self.decelerationRate = _contentPagingEnabled ? UIScrollViewDecelerationRateNormal : UIScrollViewDecelerationRateFast;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -133,9 +134,11 @@
         self.delegate = self;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
-        self.decelerationRate = 0.994f;
+        self.decelerationRate = UIScrollViewDecelerationRateNormal;
         
         self.shouldCallback = YES;
+        self.contentMaximumZoomScale = 1.0f;
+        self.contentMinimumZoomScale = 1.0f;
     }
     return self;
 }
@@ -175,6 +178,12 @@
 }
 
 - (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation {
+    if (animation) {
+        self.userInteractionEnabled = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            self.userInteractionEnabled = YES;
+        });
+    }
     [self setContentOffset:[self _originForContentViewAtIndex:index] animated:animation];
 }
 
@@ -249,6 +258,8 @@
             UIView* view = self.blockForPageViewForDisplay(self, idx);
             GCPageContentScrollView* contentView = [self.storeHelper createPageContentScrollViewAtIndex:idx];
             contentView.frame = rect;
+            contentView.maximumZoomScale = self.contentMaximumZoomScale;
+            contentView.minimumZoomScale = self.contentMinimumZoomScale;
             contentView.contentView = view;
             [self addSubview:contentView];
         }
@@ -295,7 +306,7 @@
         }
     }
     {
-        NSUInteger pageIndex = (self.bounds.origin.x / self.width) + 1;
+        NSUInteger pageIndex = (self.bounds.origin.x / self.width);
         while (YES) {
             CGRect rect = [self _rectForContentViewAtIndex:pageIndex];
             if (!CGRectIntersectsRect(rect, visibleRect)) {

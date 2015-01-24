@@ -17,21 +17,21 @@ typedef NS_ENUM(NSInteger, GCPageViewMode) {
 
 @interface GCPageView : UIView
 
-@property (nonatomic, assign) BOOL bounces;
-
-- (NSUInteger)currentPageIndex;
-- (NSUInteger)totalPageCount;
-
 - (instancetype)initWithMode:(GCPageViewMode)mode;
 
 - (instancetype)withBlockForPageViewCellCount:(NSUInteger (^)(GCPageView* pageView))block;
 - (instancetype)withBlockForPageViewCell:(GCPageViewCell* (^)(GCPageView* pageView, NSUInteger index))block;
 - (instancetype)withBlockForPageViewCellDidScroll:(void (^)(GCPageView* pageView, GCPageViewCell* cell, CGFloat position))block;
 - (instancetype)withBlockForPageViewCellDidEndDisplay:(void (^)(GCPageView* pageView, NSUInteger index, GCPageViewCell* cell))block;
-
 - (instancetype)withLeftBorderAction:(void (^)())leftBorderAction;
 - (instancetype)withRightBorderAction:(void (^)())rightBorderAction;
 - (instancetype)withPagingEnabled:(BOOL)pagingEnabled;
+- (instancetype)withMaximumZoomScale:(CGFloat)maximumZoomScale;
+- (instancetype)withMinimumZoomScale:(CGFloat)minimumZoomScale;
+- (instancetype)withBounces:(BOOL)bounces;
+
+- (NSUInteger)currentPageIndex;
+- (NSUInteger)totalPageCount;
 
 - (void)registClass:(Class)cellClass withCellIdentifer:(NSString *)cellIdentifier;
 - (id)dequeueReusableCellWithIdentifer:(NSString *)cellIdentifier;

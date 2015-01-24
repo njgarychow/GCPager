@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "GCPager.h"
 #import "ContentCell.h"
+#import "ContentCell2.h"
 
 @interface ViewController ()
 
@@ -24,13 +25,21 @@
     self.pageView = ({
         GCPageView* view = [[GCPageView alloc] initWithMode:GCPageViewModeDefault];
         [view withPagingEnabled:YES];
+        [view withMaximumZoomScale:2.0f];
+        [view withMinimumZoomScale:.5f];
         [view withBlockForPageViewCellCount:^NSUInteger(GCPageView *pageView) {
-            return (NSUInteger)4;
+            return (NSUInteger)20;
         }];
         [view withBlockForPageViewCell:^GCPageViewCell *(GCPageView *pageView, NSUInteger index) {
-            ContentCell* cell = [pageView dequeueReusableCellWithIdentifer:@"test"];
-            cell.label.text = [@(index) stringValue];
-            return cell;
+            if (index % 2) {
+                ContentCell* cell = [pageView dequeueReusableCellWithIdentifer:@"test"];
+                cell.label.text = [@(index) stringValue];
+                return cell;
+            }
+            else {
+                ContentCell2* cell = [pageView dequeueReusableCellWithIdentifer:@"test2"];
+                return cell;
+            }
         }];
         [view withBlockForPageViewCellDidScroll:^(GCPageView *pageView, GCPageViewCell *cell, CGFloat position) {
             cell.alpha = 1 - fabsf(position);
@@ -41,9 +50,10 @@
         [view withLeftBorderAction:^{
             NSLog(@"left action");
         }];
-        [view startAutoScrollWithInterval:2.0f];
+        [view startAutoScrollWithInterval:1.0f];
         view.frame = self.view.bounds;
         [view registClass:[ContentCell class] withCellIdentifer:@"test"];
+        [view registClass:[ContentCell2 class] withCellIdentifer:@"test2"];
         [view reloadData];
         view;
     });

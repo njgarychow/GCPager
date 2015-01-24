@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		61042B461A7358A5002131D9 /* ContentCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 61042B451A7358A5002131D9 /* ContentCell2.m */; };
 		6127C5E61A6952070030E114 /* GCPageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6127C5E51A6952070030E114 /* GCPageViewCell.m */; };
 		6127C5E91A6A5B6C0030E114 /* GCDefaultPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6127C5E81A6A5B6C0030E114 /* GCDefaultPageView.m */; };
 		6127C5EC1A6A5E970030E114 /* GCInfinitePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6127C5EB1A6A5E970030E114 /* GCInfinitePageView.m */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		61042B441A7358A5002131D9 /* ContentCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentCell2.h; sourceTree = "<group>"; };
+		61042B451A7358A5002131D9 /* ContentCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentCell2.m; sourceTree = "<group>"; };
 		6127C5E41A6952070030E114 /* GCPageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCPageViewCell.h; sourceTree = "<group>"; };
 		6127C5E51A6952070030E114 /* GCPageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPageViewCell.m; sourceTree = "<group>"; };
 		6127C5E71A6A5B6C0030E114 /* GCDefaultPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDefaultPageView.h; sourceTree = "<group>"; };
@@ -116,6 +119,8 @@
 				61B1A4271A655D670017BE2C /* ViewController.m */,
 				B72E07831A7215FF00F0BEB8 /* ContentCell.h */,
 				B72E07841A7215FF00F0BEB8 /* ContentCell.m */,
+				61042B441A7358A5002131D9 /* ContentCell2.h */,
+				61042B451A7358A5002131D9 /* ContentCell2.m */,
 				61B1A4291A655D670017BE2C /* Main.storyboard */,
 				61B1A42C1A655D670017BE2C /* Images.xcassets */,
 				61B1A42E1A655D670017BE2C /* LaunchScreen.xib */,
@@ -283,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61B1A4591A657D590017BE2C /* UIView+GCOperation.m in Sources */,
+				61042B461A7358A5002131D9 /* ContentCell2.m in Sources */,
 				61B1A4551A657D390017BE2C /* GCPageView.m in Sources */,
 				6127C5E61A6952070030E114 /* GCPageViewCell.m in Sources */,
 				6127C5EC1A6A5E970030E114 /* GCInfinitePageView.m in Sources */,

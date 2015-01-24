@@ -29,15 +29,6 @@
 
 @implementation GCDefaultPageView
 
-@dynamic bounces;
-- (void)setBounces:(BOOL)bounces {
-    self.pageScrollView.bounces = bounces;
-}
-- (BOOL)bounces {
-    return self.pageScrollView.bounces;
-}
-
-
 - (NSUInteger)currentPageIndex {
     return self.pageScrollView.currentPageIndex;
 }
@@ -122,6 +113,18 @@
 }
 - (instancetype)withPagingEnabled:(BOOL)pagingEnabled {
     self.pageScrollView.contentPagingEnabled = pagingEnabled;
+    return self;
+}
+- (instancetype)withMaximumZoomScale:(CGFloat)maximumZoomScale {
+    self.pageScrollView.contentMaximumZoomScale = maximumZoomScale;
+    return self;
+}
+- (instancetype)withMinimumZoomScale:(CGFloat)minimumZoomScale {
+    self.pageScrollView.contentMinimumZoomScale = minimumZoomScale;
+    return self;
+}
+- (instancetype)withBounces:(BOOL)bounces {
+    self.pageScrollView.bounces = bounces;
     return self;
 }
 

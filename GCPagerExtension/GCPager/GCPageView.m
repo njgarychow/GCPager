@@ -13,15 +13,6 @@
 
 @implementation GCPageView
 
-@dynamic bounces;
-- (void)setBounces:(BOOL)bounces {
-    NSAssert(NO, @"override this method");
-}
-- (BOOL)bounces {
-    NSAssert(NO, @"override this method");
-    return NO;
-}
-
 - (instancetype)initWithMode:(GCPageViewMode)mode {
     if (mode == GCPageViewModeDefault) {
         return [[GCDefaultPageView alloc] init];
@@ -56,11 +47,19 @@
     NSAssert(NO, @"override this method");
     return nil;
 }
-- (instancetype)withPageViewCellSize:(CGSize)size {
+- (instancetype)withPagingEnabled:(BOOL)pagingEnabled {
     NSAssert(NO, @"override this method");
     return nil;
 }
-- (instancetype)withPagingEnabled:(BOOL)pagingEnabled {
+- (instancetype)withMaximumZoomScale:(CGFloat)maximumZoomScale {
+    NSAssert(NO, @"override this method");
+    return nil;
+}
+- (instancetype)withMinimumZoomScale:(CGFloat)minimumZoomScale {
+    NSAssert(NO, @"override this method");
+    return nil;
+}
+- (instancetype)withBounces:(BOOL)bounces {
     NSAssert(NO, @"override this method");
     return nil;
 }
