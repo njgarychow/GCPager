@@ -291,12 +291,22 @@
         return @[];
     }
     CGRect visibleRect = self.bounds;
+    
+    BOOL (^IsContentAtIndexVisible)(NSUInteger index) = ^(NSUInteger index) {
+        CGRect rect = [self _rectForContentViewAtIndex:index];
+        if (CGRectEqualToRect(rect, CGRectZero)) {
+            return  NO;
+        }
+        if (!CGRectIntersectsRect(rect, visibleRect)) {
+            return NO;
+        }
+        return YES;
+    };
     NSMutableOrderedSet* indexes = [[NSMutableOrderedSet alloc] init];
     {
         NSUInteger pageIndex = (self.bounds.origin.x / self.width);
         while (YES) {
-            CGRect rect = [self _rectForContentViewAtIndex:pageIndex];
-            if (!CGRectIntersectsRect(rect, visibleRect)) {
+            if (!IsContentAtIndexVisible(pageIndex)) {
                 break;
             }
             [indexes addObject:@(pageIndex)];
@@ -308,8 +318,7 @@
     {
         NSUInteger pageIndex = (self.bounds.origin.x / self.width);
         while (YES) {
-            CGRect rect = [self _rectForContentViewAtIndex:pageIndex];
-            if (!CGRectIntersectsRect(rect, visibleRect)) {
+            if (!IsContentAtIndexVisible(pageIndex)) {
                 break;
             }
             [indexes addObject:@(pageIndex)];
