@@ -32,9 +32,6 @@
 - (NSUInteger)currentPageIndex {
     return self.pageScrollView.currentPageIndex;
 }
-- (NSUInteger)totalPageCount {
-    return self.pageScrollView.totalPageCount;
-}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -183,8 +180,13 @@
     self.autoScrollTimer = nil;
 }
 - (void)_scrollToNextPageAutomatic:(NSTimer *)timer {
-    NSUInteger nextPageIndex = (self.currentPageIndex + 1) % self.totalPageCount;
+    NSUInteger nextPageIndex = (self.currentPageIndex + 1) % [self _totalPageCount];
     [self.pageScrollView showPageAtIndex:nextPageIndex animation:YES];
 }
+
+- (NSUInteger)_totalPageCount {
+    return self.pageScrollView.totalPageCount;
+}
+
 
 @end

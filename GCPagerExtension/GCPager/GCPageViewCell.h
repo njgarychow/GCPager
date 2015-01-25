@@ -14,7 +14,13 @@
 
 - (instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier;
 
+/**
+ *  Optional. This cell will be reused. Override this method to initialize the state.
+ */
 - (void)prepareForReuse;
+/**
+ *  Optional. This cell has disappear. Override this method to free memory or some other resouces.
+ */
 - (void)prepareForFree;
 
 @end
