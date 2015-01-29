@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) GCPageView* pageView;
 @property (nonatomic, strong) NSMutableDictionary* controllerCacheDic;
+@property (nonatomic, assign) NSUInteger totalPageCount;
 
 @property (nonatomic, copy) NSUInteger (^blockForPageControllerCount)(GCPageViewController* controller);
 @property (nonatomic, copy) UIViewController* (^blockForPageController)(GCPageViewController* controller, NSUInteger index);
@@ -36,33 +37,46 @@
             
             void (^UninstallViewController)(NSNumber* index) = ^(NSNumber* index) {
                 typeof(weakSelf) self = weakSelf;
-                UIViewController* vc = self.controllerCacheDic[index];
-                [vc.view removeFromSuperview];
-                [vc removeFromParentViewController];
+                NSMutableArray* vcs = self.controllerCacheDic[index];
+                for (UIViewController* vc in vcs) {
+                    [vc.view removeFromSuperview];
+                    [vc removeFromParentViewController];
+                }
                 [self.controllerCacheDic removeObjectForKey:index];
                 if (self.blockForPageControllerDidEndDisplay) {
                     self.blockForPageControllerDidEndDisplay(self, [index unsignedIntegerValue]);
                 }
             };
+            void (^InstallViewController)(UIViewController* controller, NSNumber* index) = ^(UIViewController* controller, NSNumber* index) {
+                typeof(weakSelf) self = weakSelf;
+                NSMutableArray* vcs = self.controllerCacheDic[index];
+                if (!vcs) {
+                    vcs = [NSMutableArray array];
+                    self.controllerCacheDic[index] = vcs;
+                }
+                [vcs addObject:controller];
+                [self addChildViewController:controller];
+            };
             
             GCPageView* view = [[GCPageView alloc] initWithMode:mode];
             [view withBlockForPageViewCellCount:^NSUInteger(GCPageView *pageView) {
                 typeof(weakSelf) self = weakSelf;
-                return self.blockForPageControllerCount(self);
+                self.totalPageCount = self.blockForPageControllerCount(self);
+                return self.totalPageCount;
             }];
             [view withBlockForPageViewCell:^GCPageViewCell *(GCPageView *pageView, NSUInteger index) {
                 typeof(weakSelf) self = weakSelf;
                 
                 for (NSNumber* num in [[self.controllerCacheDic allKeys] copy]) {
-                    if ([num unsignedIntegerValue] + 1 < index ||
-                        [num unsignedIntegerValue] > index + 1) {
+                    if (([num integerValue] != ((NSInteger)index + 1) % self.totalPageCount) &&
+                        ((([num integerValue] + 1) % self.totalPageCount) != (NSInteger)index)) {
                         UninstallViewController(num);
                     }
                 }
+                UninstallViewController(@(index));
                 
                 UIViewController* vc = self.blockForPageController(self, index);
-                [self addChildViewController:vc];
-                self.controllerCacheDic[@(index)] = vc;
+                InstallViewController(vc, @(index));
                 
                 GCPageViewCell* cell = [[GCPageViewCell alloc] initWithFrame:self.pageView.bounds reuseIdentifier:nil];
                 vc.view.frame = cell.bounds;

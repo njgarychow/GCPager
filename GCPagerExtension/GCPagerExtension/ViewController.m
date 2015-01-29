@@ -24,12 +24,12 @@
     [super viewDidLoad];
     
     self.pageView = ({
-        GCPageView* view = [[GCPageView alloc] initWithMode:GCPageModeDefault];
+        GCPageView* view = [[GCPageView alloc] initWithMode:GCPageModeInfinite];
         [view withPagingEnabled:YES];
         [view withMaximumZoomScale:2.0f];
         [view withMinimumZoomScale:.5f];
         [view withBlockForPageViewCellCount:^NSUInteger(GCPageView *pageView) {
-            return (NSUInteger)20;
+            return (NSUInteger)1;
         }];
         [view withBlockForPageViewCell:^GCPageViewCell *(GCPageView *pageView, NSUInteger index) {
             if (index % 2) {
@@ -64,6 +64,12 @@
     [super viewDidAppear:animated];
     
     [self.pageView startAutoScrollWithInterval:1.0f];
+    
+    ViewController2* vc = [[ViewController2 alloc] init];
+    [vc withDismissBlock:^(NSDictionary *userInfo) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

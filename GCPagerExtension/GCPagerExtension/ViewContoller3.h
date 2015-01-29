@@ -10,4 +10,6 @@
 
 @interface ViewContoller3 : UIViewController
 
+@property (nonatomic, strong) UILabel* label;
+
 @end

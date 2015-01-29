@@ -13,7 +13,7 @@
 #import "GCPageViewCell.h"
 #import "UIView+GCOperation.h"
 
-static NSUInteger realHalfPageCount = 1000000;
+static NSInteger realHalfPageCount = 1000000;
 
 @interface GCInfinitePageView ()
 
@@ -61,7 +61,7 @@ static NSUInteger realHalfPageCount = 1000000;
     __weak typeof(self) weakSelf = self;
     [self.pageScrollView withBlockForPageViewCount:^NSUInteger(GCPageScrollView *view) {
         weakSelf.totalPageCount = block(weakSelf);
-        return realHalfPageCount * 2 * weakSelf.totalPageCount;
+        return realHalfPageCount * 2;
     }];
     return self;
 }
@@ -124,8 +124,8 @@ static NSUInteger realHalfPageCount = 1000000;
 }
 
 - (void)reloadData {
+    [self.pageScrollView showPageAtIndexWithoutCallbacks:(self.pageScrollView.currentPageIndex + realHalfPageCount)];
     [self.pageScrollView reloadData];
-    [self.pageScrollView showPageAtIndexWithoutCallbacks:[self _indexToPageScrollViewIndex:self.currentPageIndex]];
 }
 
 - (void)showPageAtIndex:(NSUInteger)index animation:(BOOL)animation {
@@ -163,10 +163,9 @@ static NSUInteger realHalfPageCount = 1000000;
     [self.pageScrollView showPageAtIndex:nextPageIndex animation:YES];
 }
 - (NSUInteger)_indexFromPageScrollViewIndex:(NSUInteger)index {
-    return index % self.totalPageCount;
-}
-- (NSUInteger)_indexToPageScrollViewIndex:(NSUInteger)index {
-    return index + realHalfPageCount;
+    NSInteger pageIndex = ((NSInteger)index - realHalfPageCount) % (NSInteger)self.totalPageCount;
+    pageIndex = (pageIndex + (NSInteger)self.totalPageCount) % (NSInteger)self.totalPageCount;
+    return pageIndex;
 }
 
 @end

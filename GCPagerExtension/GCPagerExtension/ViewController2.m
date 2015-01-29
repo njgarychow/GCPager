@@ -34,17 +34,14 @@
     [super viewDidLoad];
     
     GCPageViewController* pageViewController = ({
-        GCPageViewController* pvc = [[GCPageViewController alloc] initWithMode:GCPageModeDefault];
+        GCPageViewController* pvc = [[GCPageViewController alloc] initWithMode:GCPageModeInfinite];
         __weak typeof(pvc) weakPVC = pvc;
         [pvc withBlockForPageControllerCount:^NSUInteger(GCPageViewController *controller) {
-            return (NSUInteger)10;
+            return (NSUInteger)4;
         }];
         [pvc withBlockForPageController:^UIViewController *(GCPageViewController *controller, NSUInteger index) {
             ViewContoller3* vc = [[ViewContoller3 alloc] init];
-            CGFloat r = arc4random() % 255 / 255.0f;
-            CGFloat g = arc4random() % 255 / 255.0f;
-            CGFloat b = arc4random() % 255 / 255.0f;
-            vc.view.backgroundColor = [UIColor colorWithRed:r green:g blue:b alpha:1.0];
+            vc.label.text = [@(index) stringValue];
             return vc;
         }];
         [pvc withLeftBorderAction:^{
@@ -53,7 +50,7 @@
         [pvc withRightBorderAction:^{
             [weakPVC showPageAtIndex:0 animation:NO];
         }];
-        pvc.view.frame = CGRectMake(0, 100, 300, 200);
+        pvc.view.frame = self.view.bounds;
         [pvc reloadData];
         pvc;
     });
