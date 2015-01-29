@@ -12,5 +12,7 @@
 #import "GCPageView.h"
 #import "GCPageViewCell.h"
 
+#import "GCPageViewController.h"
+
 
 #endif

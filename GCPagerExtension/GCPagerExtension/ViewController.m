@@ -64,12 +64,6 @@
     [super viewDidAppear:animated];
     
     [self.pageView startAutoScrollWithInterval:1.0f];
-    
-    ViewController2* vc = [[ViewController2 alloc] init];
-    [vc withDismissBlock:^(NSDictionary *userInfo) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
