@@ -10,6 +10,7 @@
 #import "GCPager.h"
 #import "ContentCell.h"
 #import "ContentCell2.h"
+#import "ViewController2.h"
 
 @interface ViewController ()
 
@@ -23,7 +24,7 @@
     [super viewDidLoad];
     
     self.pageView = ({
-        GCPageView* view = [[GCPageView alloc] initWithMode:GCPageViewModeDefault];
+        GCPageView* view = [[GCPageView alloc] initWithMode:GCPageModeDefault];
         [view withPagingEnabled:YES];
         [view withMaximumZoomScale:2.0f];
         [view withMinimumZoomScale:.5f];
@@ -50,7 +51,6 @@
         [view withLeftBorderAction:^{
             NSLog(@"left action");
         }];
-        [view startAutoScrollWithInterval:1.0f];
         view.frame = self.view.bounds;
         [view registClass:[ContentCell class] withCellIdentifer:@"test"];
         [view registClass:[ContentCell2 class] withCellIdentifer:@"test2"];
@@ -60,10 +60,28 @@
     [self.view addSubview:self.pageView];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.pageView startAutoScrollWithInterval:1.0f];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self.pageView stopAutoScroll];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-    [self.pageView reloadData];
+    
+    if (!self.presentedViewController) {
+        ViewController2* vc = [[ViewController2 alloc] init];
+        [vc withDismissBlock:^(NSDictionary *userInfo) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 
 @end

@@ -24,6 +24,9 @@
 		B72E05E51A6E3F1700F0BEB8 /* GCPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B72E05E41A6E3F1700F0BEB8 /* GCPageScrollView.m */; };
 		B72E07821A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B72E07811A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m */; };
 		B72E07851A7215FF00F0BEB8 /* ContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72E07841A7215FF00F0BEB8 /* ContentCell.m */; };
+		B79287FE1A787B4E007ECA9F /* GCPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B79287FD1A787B4E007ECA9F /* GCPageViewController.m */; };
+		B79288151A79CE66007ECA9F /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = B79288141A79CE66007ECA9F /* ViewController2.m */; };
+		B79288181A79D45A007ECA9F /* ViewContoller3.m in Sources */ = {isa = PBXBuildFile; fileRef = B79288171A79D45A007ECA9F /* ViewContoller3.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +74,12 @@
 		B72E07811A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPageViewCellStoreHelper.m; sourceTree = "<group>"; };
 		B72E07831A7215FF00F0BEB8 /* ContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentCell.h; sourceTree = "<group>"; };
 		B72E07841A7215FF00F0BEB8 /* ContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentCell.m; sourceTree = "<group>"; };
+		B79287FC1A787B4E007ECA9F /* GCPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCPageViewController.h; sourceTree = "<group>"; };
+		B79287FD1A787B4E007ECA9F /* GCPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCPageViewController.m; sourceTree = "<group>"; };
+		B79288131A79CE66007ECA9F /* ViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController2.h; sourceTree = "<group>"; };
+		B79288141A79CE66007ECA9F /* ViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController2.m; sourceTree = "<group>"; };
+		B79288161A79D45A007ECA9F /* ViewContoller3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewContoller3.h; sourceTree = "<group>"; };
+		B79288171A79D45A007ECA9F /* ViewContoller3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewContoller3.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +130,10 @@
 				B72E07841A7215FF00F0BEB8 /* ContentCell.m */,
 				61042B441A7358A5002131D9 /* ContentCell2.h */,
 				61042B451A7358A5002131D9 /* ContentCell2.m */,
+				B79288131A79CE66007ECA9F /* ViewController2.h */,
+				B79288141A79CE66007ECA9F /* ViewController2.m */,
+				B79288161A79D45A007ECA9F /* ViewContoller3.h */,
+				B79288171A79D45A007ECA9F /* ViewContoller3.m */,
 				61B1A4291A655D670017BE2C /* Main.storyboard */,
 				61B1A42C1A655D670017BE2C /* Images.xcassets */,
 				61B1A42E1A655D670017BE2C /* LaunchScreen.xib */,
@@ -164,6 +177,8 @@
 				61B1A4541A657D390017BE2C /* GCPageView.m */,
 				6127C5E41A6952070030E114 /* GCPageViewCell.h */,
 				6127C5E51A6952070030E114 /* GCPageViewCell.m */,
+				B79287FC1A787B4E007ECA9F /* GCPageViewController.h */,
+				B79287FD1A787B4E007ECA9F /* GCPageViewController.m */,
 			);
 			path = GCPager;
 			sourceTree = "<group>";
@@ -289,6 +304,7 @@
 			files = (
 				61B1A4591A657D590017BE2C /* UIView+GCOperation.m in Sources */,
 				61042B461A7358A5002131D9 /* ContentCell2.m in Sources */,
+				B79288151A79CE66007ECA9F /* ViewController2.m in Sources */,
 				61B1A4551A657D390017BE2C /* GCPageView.m in Sources */,
 				6127C5E61A6952070030E114 /* GCPageViewCell.m in Sources */,
 				6127C5EC1A6A5E970030E114 /* GCInfinitePageView.m in Sources */,
@@ -297,7 +313,9 @@
 				61B1A4251A655D670017BE2C /* AppDelegate.m in Sources */,
 				6127C5E91A6A5B6C0030E114 /* GCDefaultPageView.m in Sources */,
 				B72E07821A71F33000F0BEB8 /* GCPageViewCellStoreHelper.m in Sources */,
+				B79288181A79D45A007ECA9F /* ViewContoller3.m in Sources */,
 				61B1A4521A6561610017BE2C /* GCScrollView.m in Sources */,
+				B79287FE1A787B4E007ECA9F /* GCPageViewController.m in Sources */,
 				61B1A4221A655D670017BE2C /* main.m in Sources */,
 				B72E07851A7215FF00F0BEB8 /* ContentCell.m in Sources */,
 			);

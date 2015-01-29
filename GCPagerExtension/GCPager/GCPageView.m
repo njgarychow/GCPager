@@ -13,11 +13,11 @@
 
 @implementation GCPageView
 
-- (instancetype)initWithMode:(GCPageViewMode)mode {
-    if (mode == GCPageViewModeDefault) {
+- (instancetype)initWithMode:(GCPageMode)mode {
+    if (mode == GCPageModeDefault) {
         return [[GCDefaultPageView alloc] init];
     }
-    if (mode == GCPageViewModeInfinite) {
+    if (mode == GCPageModeInfinite) {
         return [[GCInfinitePageView alloc] init];
     }
     return nil;

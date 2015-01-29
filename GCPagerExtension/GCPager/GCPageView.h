@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, GCPageViewMode) {
-    GCPageViewModeDefault,
-    GCPageViewModeInfinite,
+typedef NS_ENUM(NSInteger, GCPageMode) {
+    GCPageModeDefault,
+    GCPageModeInfinite,
 };
 
 @class GCPageViewCell;
@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, GCPageViewMode) {
  *
  *  @return     An instance for the class GCPageView.
  */
-- (instancetype)initWithMode:(GCPageViewMode)mode;
+- (instancetype)initWithMode:(GCPageMode)mode;
 
 /**
  *  Required. You must set the block for PageView's cells count.
