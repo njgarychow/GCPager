@@ -44,6 +44,9 @@
             vc.label.text = [@(index) stringValue];
             return vc;
         }];
+        [pvc withBlockForPageControllerDidEndDisplay:^(GCPageViewController *controller, NSUInteger index) {
+            NSLog(@"end display :%ld", index);
+        }];
         [pvc withLeftBorderAction:^{
             self.dismissBlock(nil);
         }];

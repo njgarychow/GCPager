@@ -43,9 +43,6 @@
                     [vc removeFromParentViewController];
                 }
                 [self.controllerCacheDic removeObjectForKey:index];
-                if (self.blockForPageControllerDidEndDisplay) {
-                    self.blockForPageControllerDidEndDisplay(self, [index unsignedIntegerValue]);
-                }
             };
             void (^InstallViewController)(UIViewController* controller, NSNumber* index) = ^(UIViewController* controller, NSNumber* index) {
                 typeof(weakSelf) self = weakSelf;
@@ -90,6 +87,9 @@
                     if ([num unsignedIntegerValue] != index) {
                         UninstallViewController(num);
                     }
+                }
+                if (self.blockForPageControllerDidEndDisplay) {
+                    self.blockForPageControllerDidEndDisplay(self, index);
                 }
             }];
             [view withPagingEnabled:YES];
