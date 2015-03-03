@@ -22,6 +22,7 @@
 - (void)setContentView:(UIView *)contentView {
     [_contentView removeFromSuperview];
     _contentView = contentView;
+    contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self addSubview:_contentView];
 }
 
@@ -135,6 +136,7 @@
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
         self.decelerationRate = UIScrollViewDecelerationRateNormal;
+        self.directionalLockEnabled = YES;
         
         self.shouldCallback = YES;
         self.contentMaximumZoomScale = 1.0f;
